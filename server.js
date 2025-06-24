@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth.routes');
 const formidable = require('express-formidable');
 const uniqid = require('uniqid');
 const uploadRoutes = require('./routes/upload.routes');
+const adsRoutes = require('./routes/ads.routes');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -40,6 +41,8 @@ app.use(
 );
 
 app.use('/upload', uploadRoutes);
+
+app.use('/api', adsRoutes);
 
 app.get('/', (req, res) => {
   res.send('Bulletin Board App działa');
