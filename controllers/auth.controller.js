@@ -2,13 +2,13 @@ const User = require('../models/user.model');
 
 const register = (req, res) => {
     
-    const { email, password, name } = req.body;
+    const { login, password, avatar, phone } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).send('Musisz wprowadzic email i haslo!')
+    if (!login || !password) {
+        return res.status(400).send('Musisz wprowadzic login i haslo!')
     }
 
-    const newUser = new User(email, password, name);
+    const newUser = new User(login, password, avatar, phone);
 
     console.log('Nowy uzytkownik: ', newUser);
     res.send('Użytkownik zarejestrowany (próba)');
@@ -16,9 +16,9 @@ const register = (req, res) => {
 
 const login = (req, res) => {
     console.log('Dane z formularza: ', req.body);
-    const { email, password } = req.body;
+    const { login, password } = req.body;
 
-    const loggedUser = new User(email, password);
+    const loggedUser = new User(login, password);
     req.session.user = loggedUser;
 
     console.log('Zalogowany uzytkownik: ', loggedUser);

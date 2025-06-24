@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
-const authRoutes = require('./routes/auth.routes')
+const authRoutes = require('./routes/auth.routes');
+const formidable = require('express-formidable');
+const uniqid = require('uniqid');
+const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -23,6 +26,20 @@ app.use(session({
 }));
 
 app.use('/auth', authRoutes);
+
+app.use(
+  formidable({
+    uploadDir: './public/uploads',
+    keepExtensions: true,
+    multiples: false,
+    onFileBegin: (name, file) => {
+      const extension = file.name.split('.').pop();
+      file.path = `${__dirname}/public/uploads/photo_${uniqid()}.${extension}`;
+    },
+  })
+);
+
+app.use('/upload', uploadRoutes);
 
 app.get('/', (req, res) => {
   res.send('Bulletin Board App działa');

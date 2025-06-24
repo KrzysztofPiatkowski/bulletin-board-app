@@ -9,7 +9,7 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.get('/profile', isAuthenticated, (req, res) => {
-    res.send(`Witaj, ${req.session.user.name}!`);
+    res.send(`Witaj, ${req.session.user.login}!`);
 });
 
 router.get('/logout', (req, res) => {
