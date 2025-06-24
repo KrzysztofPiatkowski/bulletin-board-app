@@ -1,13 +1,13 @@
-class Post {
-    constructor(title, content, date, photo, price, localization, sellerInfo) {
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.photo = photo;
-        this.price = price;
-        this.localization = localization;
-        this.sellerInfo = sellerInfo;
-    }
-}
+const mongoose = require('mongoose');
 
-module.exports = Post;
+const postSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  date: { type: String, required: true },
+  photo: { type: String },
+  price: { type: Number, required: true },
+  localization: { type: String },
+  sellerInfo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+});
+
+module.exports = mongoose.model('Post', postSchema);
