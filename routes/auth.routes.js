@@ -23,4 +23,12 @@ router.get('/logout', (req, res) => {
     });
 });
 
+router.get('/user', (req, res) => {
+    if (req.session.user) {
+        res.json(req.session.user);
+    } else {
+        res.status(401).json({ message: 'Nie jestes zalogowany' });
+    }
+});
+
 module.exports = router;

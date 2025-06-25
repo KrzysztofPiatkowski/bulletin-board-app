@@ -29,6 +29,8 @@ app.use(session({
 
 app.use('/auth', authRoutes);
 
+app.use('/api', authRoutes);
+
 app.use('/upload', formidable({
   uploadDir: './public/uploads',
   keepExtensions: true,
