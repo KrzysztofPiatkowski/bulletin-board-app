@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllPosts, getAdById, addAd, deleteAd, editAd } = require('../controllers/ads.controller');
+const { getAllPosts, getAdById, addAd, deleteAd, editAd, searchAds } = require('../controllers/ads.controller');
+
+router.get('/ads/search/:searchPhrase', searchAds);
 
 router.get('/ads', getAllPosts);
 

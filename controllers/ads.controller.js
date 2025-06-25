@@ -115,9 +115,19 @@ const editAd = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-
-
 }
+
+const searchAds = async (req, res) => {
+  const { searchPhrase } = req.params;
+
+  try {
+    const regex = new RegExp(searchPhrase, 'i');
+    const matchedAds = await Post.find({ title: regex });
+    res.json(matchedAds);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 module.exports = {
     getAllPosts,
@@ -125,4 +135,5 @@ module.exports = {
     addAd,
     deleteAd,
     editAd,
+    searchAds,
 };
