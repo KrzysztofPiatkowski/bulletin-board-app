@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const connectDB = require('./db');
 const authRoutes = require('./routes/auth.routes');
 const formidable = require('express-formidable');
 const uniqid = require('uniqid');
@@ -28,25 +29,23 @@ app.use(session({
 
 app.use('/auth', authRoutes);
 
-app.use(
-  formidable({
-    uploadDir: './public/uploads',
-    keepExtensions: true,
-    multiples: false,
-    onFileBegin: (name, file) => {
-      const extension = file.name.split('.').pop();
-      file.path = `${__dirname}/public/uploads/photo_${uniqid()}.${extension}`;
-    },
-  })
-);
-
-app.use('/upload', uploadRoutes);
+app.use('/upload', formidable({
+  uploadDir: './public/uploads',
+  keepExtensions: true,
+  multiples: false,
+  onFileBegin: (name, file) => {
+    const extension = file.name.split('.').pop();
+    file.path = `${__dirname}/public/uploads/photo_${uniqid()}.${extension}`;
+  },
+}), uploadRoutes);
 
 app.use('/api', adsRoutes);
 
 app.get('/', (req, res) => {
   res.send('Bulletin Board App działa');
 });
+
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
