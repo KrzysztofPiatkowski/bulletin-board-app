@@ -1,12 +1,14 @@
+const path = require('path');
+
 const uploadFile = (req, res) => {
   console.log('req.files:', req.files);
 
-  if (!req.files || Object.keys(req.files).length === 0) {
+  if (!req.files || !req.files.photo) {
     return res.status(400).json({ message: 'Nie przeslano zadnego pliku' });
   }
 
-  const file = req.files.file;
-  const fileName = file.newFilename;
+  const file = req.files.photo;
+  const fileName = path.basename(file.path);
 
   res.status(200).json({ filename: fileName });
 };

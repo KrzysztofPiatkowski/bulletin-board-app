@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const connectDB = require('./db');
 const authRoutes = require('./routes/auth.routes');
@@ -11,10 +12,13 @@ const usersRoutes = require('./routes/users.routes');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 const session = require('express-session');
 
@@ -27,6 +31,9 @@ app.use(session({
     httpOnly: true,
   }
 }));
+
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 
 app.use('/auth', authRoutes);
 

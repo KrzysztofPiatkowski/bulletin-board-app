@@ -5,8 +5,10 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 
 const { register, login } = require('../controllers/auth.controller');
 
-router.post('/register', register);
-router.post('/login', login);
+const formidable = require('express-formidable');
+
+router.post('/login', formidable(), login);
+router.post('/register', formidable(), register);
 
 router.get('/profile', isAuthenticated, (req, res) => {
     res.send(`Witaj, ${req.session.user.login}!`);
